@@ -26,19 +26,19 @@ class DialogClass extends Dialog {
     private Activity c;
     private Button deletebutton;
     private EditText teamno;
-    private int size;
     private String path, hostel, roomno;
     private FirebaseDatabase db;
     private ArrayList<model> list;
+    private long size;
 
-    public DialogClass(Activity a, String path,ArrayList<model> list,int size, String hostel, String roomno) {
+    public DialogClass(Activity a, String path,ArrayList<model> list, String hostel, String roomno,long size) {
         super(a);
         this.c = a;
         this.path = path;
         this.list = list;
-        this.size = size;
         this.hostel = hostel;
         this.roomno = roomno;
+        this.size = size;
 
     }
 
@@ -78,19 +78,20 @@ class DialogClass extends Dialog {
                         mref.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                long teamsize = list.get(value-1).getClg().getSize();
                                 long updateatroot = (long) dataSnapshot.child("Filled").getValue();
                                 long cap = (long) dataSnapshot.child("Rooms/"+roomno+"/Capacity").getValue();
                                 long fill = (long) dataSnapshot.child("/Rooms/"+roomno+"/Filled").getValue();
 
 
-                                if ((fill - size) >= cap){
+                                if ((fill - teamsize) >= cap){
                                     // Do nothing
                                 }else {
-                                    long fv = fill - size;
-                                    updateatroot =  updateatroot - Math.min(cap - fv,size);
+                                    long fv = fill - teamsize;
+                                    updateatroot =  updateatroot - Math.min(cap - fv,teamsize);
                                 }
                                 updater up = new updater(list.get(value-1).getKey(), hostel,
-                                        roomno, updateatroot, (fill - size), c,DialogClass.this ,paths);
+                                        roomno, updateatroot, (fill - teamsize), c,DialogClass.this ,paths);
 
                                 up.delete();
                             }
