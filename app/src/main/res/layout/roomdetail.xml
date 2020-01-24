@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:background="@color/Orange"
+    android:layout_height="70dp">
+
+    <TextView
+        android:id="@+id/Capacity_tv"
+        android:text="Capacity : "
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/Hostel_name_tv"
+        android:text="Hostel : "
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/filled_tv"
+        android:text="Filled : "
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:padding="5dp"
+        android:layout_height="match_parent"/>
+
+
+</LinearLayout>

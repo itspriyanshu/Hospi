@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:padding="5dp"
+    android:layout_margin="10dp"
+    android:background="@color/Black2"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/name_on_card"
+        android:layout_width="match_parent"
+        android:text="B101"
+        android:textSize="25dp"
+        android:textColor="@color/White"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/card_capacity"
+        android:layout_below="@+id/name_on_card"
+        android:text="Capacity : "
+        android:layout_alignParentLeft="true"
+        android:textSize="15dp"
+        android:textColor="@color/White"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/card_filled"
+        android:layout_below="@+id/name_on_card"
+        android:textSize="15dp"
+        android:textColor="@color/White"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:text="Filled : "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+</RelativeLayout>
