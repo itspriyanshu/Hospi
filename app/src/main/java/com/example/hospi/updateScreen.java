@@ -34,7 +34,7 @@ public class updateScreen extends AppCompatActivity implements View.OnClickListe
     private FirebaseUser User;
     private FirebaseDatabase db;
     private RecyclerView rv;
-    private Button add,delete, refresh;
+    private Button add,delete;
     private ArrayList<model> clgs;
     private int size;
 
@@ -58,12 +58,10 @@ public class updateScreen extends AppCompatActivity implements View.OnClickListe
         noteammsg.setVisibility(View.VISIBLE);
         db = FirebaseDatabase.getInstance();
 
-        refresh = findViewById(R.id.refresh);
         add = findViewById(R.id.addButton);
         delete = findViewById(R.id.deleteButton);
         add.setOnClickListener(this);
         delete.setOnClickListener(this);
-        refresh.setOnClickListener(this);
 
 
         DatabaseReference mref = db.getReference("Hostels/"+hostel+"/Rooms/"+roomno);
@@ -133,11 +131,8 @@ public class updateScreen extends AppCompatActivity implements View.OnClickListe
             }break;
             case R.id.deleteButton :{
                 String path = "Hostels/"+hostel+"/Rooms/"+roomno;
-                DialogClass cdd=new DialogClass(updateScreen.this, path, clgs,size,hostel,roomno);
+                DialogClass cdd=new DialogClass(updateScreen.this, path, clgs,hostel,roomno,size);
                 cdd.show();
-            }break;
-            case R.id.refresh :{
-                refresh();
             }break;
         }
     }
