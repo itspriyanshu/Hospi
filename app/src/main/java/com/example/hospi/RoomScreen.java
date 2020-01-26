@@ -15,6 +15,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +33,7 @@ public class RoomScreen extends AppCompatActivity {
     private FirebaseUser User;
     private FirebaseDatabase db;
     protected RecyclerView rv;
+    protected FloatingActionButton fab;
 
 
     @Override
@@ -50,6 +52,16 @@ public class RoomScreen extends AppCompatActivity {
         User = firebaseAuth.getCurrentUser();
         if(User==null)finish();
         //
+
+        fab = findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addDialog ad = new addDialog(RoomScreen.this,Hostel);
+                ad.show();
+            }
+        });
 
         //Start Transaction from Database
         db = FirebaseDatabase.getInstance();
