@@ -56,4 +56,5 @@
         android:layout_marginHorizontal="70dp"
         android:layout_marginTop="50dp"
         android:text="Add"/>
+
 </LinearLayout>
