@@ -56,23 +56,7 @@ class DialogClass extends Dialog {
                 if(validate()){
                     try{
                         final int value = Integer.parseInt(teamno.getText().toString());
-//                        final DatabaseReference mref = db.getReference(path+"/"+list.get(value-1).getKey());
-//                        mref.addListenerForSingleValueEvent(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                mref.removeValue();
-//                                Toast.makeText(getContext(), "Successfully Deleted. Please Refresh the window!", Toast.LENGTH_LONG).show();
-//                                dismiss();
-//                                refreshclass r = new refreshclass(c);
-//                                r.refresh();
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                                Toast.makeText(getContext(), "Some error occured while deleting the entry!", Toast.LENGTH_LONG).show();
-//                                dismiss();
-//                            }
-//                        });
+
                         final String paths = path+"/"+list.get(value-1).getKey();
                         DatabaseReference mref = db.getReference("Hostels/"+hostel);
                         mref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -113,7 +97,12 @@ class DialogClass extends Dialog {
     }
 
     private boolean validate(){
-        int value = Integer.parseInt(teamno.getText().toString());
+        int value = 0;
+        try{
+            value = Integer.parseInt(teamno.getText().toString());
+        }catch (Exception e){
+            Toast.makeText(getContext(), "Please enter a valid input", Toast.LENGTH_LONG).show();
+        }
         if(value<=0 || value>size) {
             Toast.makeText(getContext(), "Please enter a valid input", Toast.LENGTH_LONG).show();
             return false;
