@@ -58,16 +58,6 @@ class customdialog extends Dialog {
                     final String ln = leadername.getText().toString();
                     final String num = leadernumber.getText().toString();
                     final long size = Long.parseLong(teamsize.getText().toString());
-//                    DatabaseReference mref = db.getReference("Hostels/"+hostel+"/Rooms/"+room);
-//                    mref.push().setValue(new colleges(tn,ln,num,Long.parseLong(size))).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<Void> task) {
-//                            Toast.makeText(getContext(),"Data Successfully Updated. Please refresh the window!",Toast.LENGTH_LONG).show();
-//                            dismiss();
-//                            refreshclass r = new refreshclass(c);
-//                            r.refresh();
-//                        }
-//                    });
                     DatabaseReference mref = db.getReference("Hostels/"+hostel);
                     mref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -103,6 +93,8 @@ class customdialog extends Dialog {
     }
 
     private boolean validate(){
+        String tn = teamname.getText().toString();
+        String ln = leadername.getText().toString();
         String num = leadernumber.getText().toString();
         String size = teamsize.getText().toString();
 
@@ -116,6 +108,12 @@ class customdialog extends Dialog {
             isvalid = false;
         }
         if(num.length()!=10)isvalid = false;
+        else{
+            for(int i=0;i<10;i++){
+                if(num.charAt(i)<'0' || num.charAt(i)>'9')isvalid = false;
+            }
+        }
+        if(tn.equals("") || ln.equals(""))isvalid = false;
 
         return isvalid;
 
