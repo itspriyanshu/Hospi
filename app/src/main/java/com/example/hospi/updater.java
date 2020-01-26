@@ -13,6 +13,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.core.Context;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -27,6 +28,7 @@ class updater {
     private Activity ctx;
     private customdialog cd;
     private DialogClass dc;
+    private addDialog ad;
 
     public updater(colleges clg, String hostel, String roomno, long chngatroot, long chngatdepth, Activity ctx, customdialog cd) {
         this.hostel = hostel;
@@ -47,6 +49,13 @@ class updater {
         this.ctx = ctx;
         this.dc = dc;
         this.deletepath = dp;
+    }
+
+    public updater(String hostel,Activity ctx,addDialog ad,long chngatroot){
+        this.hostel = hostel;
+        this.ad = ad;
+        this.ctx = ctx;
+        this.chngatroot = chngatroot;
     }
 
     protected void update(){
@@ -119,5 +128,37 @@ class updater {
             sb.append((char)(97+r.nextInt(26)));
         }
         return sb.toString();
+    }
+
+
+    protected void addRoom(long root, String roomname){
+        final Map<String,Object> updatechild = new HashMap<>();
+        updatechild.put("Hostels/"+hostel+"/Capacity",chngatroot);
+        updatechild.put("Hostels/"+hostel+"/Rooms/"+roomname,new Room(root));
+
+        db = FirebaseDatabase.getInstance();
+        Log.d("Name",roomname);
+        final DatabaseReference mref = db.getReference();
+        mref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mref.updateChildren(updatechild).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        //Toast.makeText(ctx,"Data Successfully Updated. Please refresh the window!",Toast.LENGTH_LONG).show();
+                        ad.dismiss();
+                        ad.refresh();
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+               // Toast.makeText(ctx,"Some error occurred while Adding!",Toast.LENGTH_LONG).show();
+                ad.dismiss();
+                ad.refresh();
+            }
+        });
+
     }
 }
