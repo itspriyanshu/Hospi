@@ -47,8 +47,6 @@ public class updateScreen extends AppCompatActivity implements View.OnClickListe
         hostel = bundle.getString("hostelname");
         roomno = bundle.getString("roomno");
 
-//        TextView tv = findViewById(R.id.room_no_tv);
-//        tv.append(hostel+" in "+roomno);
 
         User = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -104,21 +102,7 @@ public class updateScreen extends AppCompatActivity implements View.OnClickListe
 
     }
 
-//    private void pushdata(){
-//
-//        DatabaseReference nref = db.getReference("Hostels/"+hostel+"/Rooms/"+roomno);
-//        DatabaseReference dataRef = nref.child("djhksjfij");
-//        dataRef.setValue(new colleges("IITG","Priyanshu","9534843832",5L), new DatabaseReference.CompletionListener() {
-//            @Override
-//            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-//                if (databaseError != null) {
-//                    Log.i("Data","Data could not be saved " + databaseError.getMessage());
-//                } else {
-//                    Log.i("Data","Data saved successfully.");
-//                }
-//            }
-//        });
-//    }
+
 
     @Override
     public void onClick(View v) {
