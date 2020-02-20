@@ -53,7 +53,8 @@ class addDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 try{
-                    DatabaseReference mref = db.getReference("Hostels/Password");
+                    add.setVisibility(View.GONE);
+                    DatabaseReference mref = db.getReference("Password");
                     mref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -64,7 +65,7 @@ class addDialog extends Dialog {
                                // Toast.makeText(activity,"Password is correct!",Toast.LENGTH_LONG).show();
                                 //String hostel,Activity ctx,addDialog ad,long chngatroot
 
-                                DatabaseReference nref = db.getReference("Hostels/"+hostel);
+                                final DatabaseReference nref = db.getReference("Hostels/"+hostel);
                                 nref.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -74,30 +75,41 @@ class addDialog extends Dialog {
                                         try{
                                             cap = Long.parseLong(roomcap.getText().toString());
                                             name = roomname.getText().toString();
-                                            updater up = new updater(hostel,activity,addDialog.this,(updateatroot+cap));
-                                            up.addRoom(cap,name);
+                                            if(!dataSnapshot.child("Rooms").hasChild(name)){
+                                                updater up = new updater(hostel,activity,addDialog.this,(updateatroot+cap));
+                                                up.addRoom(cap,name);
+                                            }else{
+                                                Toast.makeText(getContext(),"Room Already Exist!",Toast.LENGTH_LONG).show();
+                                                add.setVisibility(View.VISIBLE);
+                                            }
+
                                         }catch (Exception e){
                                             Toast.makeText(getContext(),"Please Input Correct Data!",Toast.LENGTH_LONG).show();
+                                            add.setVisibility(View.VISIBLE);
                                         }
                                     }
 
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError databaseError) {
                                         Toast.makeText(getContext(),"Some Error Occurred!",Toast.LENGTH_LONG).show();
+                                        add.setVisibility(View.VISIBLE);
                                     }
                                 });
                             }else{
                                 Toast.makeText(activity,"Password is not correct!",Toast.LENGTH_LONG).show();
+                                add.setVisibility(View.VISIBLE);
                             }
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                             Toast.makeText(activity,"Database Connectivity Error!",Toast.LENGTH_LONG).show();
+                            add.setVisibility(View.VISIBLE);
                         }
                     });
                 }catch (Exception e){
                     Toast.makeText(activity,"Some Error Occurred!",Toast.LENGTH_LONG).show();
+                    add.setVisibility(View.VISIBLE);
                     dismiss();
                 }
             }
