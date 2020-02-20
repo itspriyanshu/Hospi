@@ -25,6 +25,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class RoomScreen extends AppCompatActivity {
 
@@ -70,7 +73,6 @@ public class RoomScreen extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 long size = dataSnapshot.getChildrenCount();
-                Toast.makeText(getApplicationContext(),Long.toString(size),Toast.LENGTH_LONG).show();
                 TextView capacity_tv = findViewById(R.id.Capacity_tv);
                 TextView name_of_hostel = findViewById(R.id.Hostel_name_tv);
                 TextView filled_tv = findViewById(R.id.filled_tv);
@@ -108,6 +110,15 @@ public class RoomScreen extends AppCompatActivity {
                     long fil = (long)messageSnapshot.child("Filled").getValue();
                     rooms_list.add(new cfdata(Key,fil,cap));
                 }
+
+                // Sort by number of vacants
+                Collections.sort(rooms_list, new Comparator<cfdata>() {
+                    @Override
+                    public int compare(cfdata o1, cfdata o2) {
+                        return (int)((o2.getCapacity() - o2.getFilled()) - (o1.getCapacity() - o1.getFilled()));
+                    }
+                });
+
                 rv = findViewById(R.id.room_rv);
                 rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 rv.setAdapter(new adapter(rooms_list,Hostel));
