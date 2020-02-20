@@ -53,6 +53,7 @@ class customdialog extends Dialog {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                add.setVisibility(View.GONE);
                 if(validate()){
                     final String tn = teamname.getText().toString();
                     final String ln = leadername.getText().toString();
@@ -83,10 +84,12 @@ class customdialog extends Dialog {
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                             Toast.makeText(getContext(),"Some Error Occurred!",Toast.LENGTH_LONG).show();
+                            add.setVisibility(View.VISIBLE);
                         }
                     });
                 }else{
                     Toast.makeText(getContext(),"Please input correct data!",Toast.LENGTH_LONG).show();
+                    add.setVisibility(View.VISIBLE);
                 }
             }
         });
