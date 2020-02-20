@@ -1,2 +1,2 @@
 # Hospi
- Hospitality App on Android for Alcheringa'19
+ Hospitality App on Android for Alcheringa'20
