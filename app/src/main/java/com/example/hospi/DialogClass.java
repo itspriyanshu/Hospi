@@ -53,6 +53,7 @@ class DialogClass extends Dialog {
         deletebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                deletebutton.setVisibility(View.GONE);
                 if(validate()){
                     try{
                         final int value = Integer.parseInt(teamno.getText().toString());
@@ -83,13 +84,16 @@ class DialogClass extends Dialog {
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
                                 Toast.makeText(getContext(),"Some Error Occurred!",Toast.LENGTH_LONG).show();
+                                deletebutton.setVisibility(View.VISIBLE);
                             }
                         });
 
                     }catch (Exception e){
                         Toast.makeText(getContext(), "Please input which falls in range!", Toast.LENGTH_LONG).show();
+                        deletebutton.setVisibility(View.VISIBLE);
                     }
                 }else{
+                    deletebutton.setVisibility(View.VISIBLE);
                     dismiss();
                 }
             }
