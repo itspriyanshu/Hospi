@@ -40,8 +40,10 @@ public class adapter extends RecyclerView.Adapter<adapter.holder> {
         long cap = results.get(position).getCapacity();
         long fil = results.get(position).getFilled();
         holder.card_name.setText(name);
-        holder.card_capacity.append(Long.toString(cap));
-        holder.card_filled.append(Long.toString(fil));
+        String capa = "Capacity : "+Long.toString(cap);
+        String filled = "Filled : "+Long.toString(fil);
+        holder.card_capacity.setText(capa);
+        holder.card_filled.setText(filled);
     }
 
 
@@ -63,7 +65,6 @@ public class adapter extends RecyclerView.Adapter<adapter.holder> {
         @Override
         public void onClick(View view) {
             int pos = getLayoutPosition();
-            Toast.makeText(view.getContext(),Integer.toString(pos)+" "+hostelName,Toast.LENGTH_LONG).show();
             Intent intent = new Intent(view.getContext(),updateScreen.class);
             intent.putExtra("hostelname",hostelName);
             intent.putExtra("roomno",results.get(pos).getName());
