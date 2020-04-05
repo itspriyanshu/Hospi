@@ -2,9 +2,14 @@ package com.example.hospi;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,15 +43,28 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase db;
     private static final int RC_SIGN_IN = 123;
     private GridView simpleGrid;
+    private final String CHANNEL_ID = "45";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("S1","App Started");
         super.onCreate(savedInstanceState);
+        createNotificationChannel();
         setContentView(R.layout.activity_main);
 
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.icon)
+                .setContentTitle("Welcome")
+                .setContentText("Thanks for Selecting this app to use")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("We hope that you will be going to use this app. Go ahead and keep posting about this."))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(4, builder.build());
 
 
         User = firebaseAuth.getCurrentUser();
@@ -106,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
     private void StartSignIn(){
         List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.PhoneBuilder().build(),
                 new AuthUI.IdpConfig.GoogleBuilder().build());
@@ -120,5 +139,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if(User==null)finish();
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
